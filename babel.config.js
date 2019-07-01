@@ -1,12 +1,3 @@
-/**
- * React Starter Kit (https://www.reactstarterkit.com/)
- *
- * Copyright © 2014-present Kriasoft, LLC. All rights reserved.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE.txt file in the root directory of this source tree.
- */
-
 // Babel configuration
 // https://babeljs.io/docs/usage/api/
 module.exports = {
@@ -25,6 +16,15 @@ module.exports = {
   plugins: [
     '@babel/plugin-proposal-class-properties',
     '@babel/plugin-syntax-dynamic-import',
+    [
+      'babel-plugin-styled-components',
+      {
+        minify: process.env.NODE_ENV === 'production',
+        pure: process.env.NODE_ENV === 'production',
+        fileName: process.env.NODE_ENV !== 'production',
+        displayName: process.env.NODE_ENV !== 'production',
+      },
+    ],
   ],
   ignore: ['node_modules', 'build'],
 };

@@ -1,43 +1,63 @@
-/**
- * React Starter Kit (https://www.reactstarterkit.com/)
- *
- * Copyright © 2014-present Kriasoft, LLC. All rights reserved.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE.txt file in the root directory of this source tree.
- */
-
 import React from 'react';
-import withStyles from 'isomorphic-style-loader/lib/withStyles';
-import s from './Footer.css';
+import styled from 'styled-components';
 import Link from '../Link';
+
+const Root = styled.div`
+  background: #333;
+  color: #fff;
+`;
+
+const Container = styled.div`
+  margin: 0 auto;
+  padding: 20px 15px;
+  max-width: 1000px;
+  text-align: center;
+`;
+
+const Text = styled.div`
+  color: rgba(255, 255, 255, 0.5);
+  padding: 2px 5px;
+  font-size: 1em;
+`;
+
+const Spacer = styled.div`
+  color: rgba(255, 255, 255, 0.3);
+`;
+
+const FooterLink = styled(Link)`
+  padding: 2px 5px;
+  font-size: 1em;
+
+  &,
+  &:active,
+  &:visited {
+    color: rgba(255, 255, 255, 0.6);
+    text-decoration: none;
+  }
+
+  &:hover {
+    color: rgba(255, 255, 255, 1);
+  }
+`;
 
 class Footer extends React.Component {
   render() {
     return (
-      <div className={s.root}>
-        <div className={s.container}>
-          <span className={s.text}>© Your Company</span>
-          <span className={s.spacer}>·</span>
-          <Link className={s.link} to="/">
-            Home
-          </Link>
-          <span className={s.spacer}>·</span>
-          <Link className={s.link} to="/admin">
-            Admin
-          </Link>
-          <span className={s.spacer}>·</span>
-          <Link className={s.link} to="/privacy">
-            Privacy
-          </Link>
-          <span className={s.spacer}>·</span>
-          <Link className={s.link} to="/not-found">
-            Not Found
-          </Link>
-        </div>
-      </div>
+      <Root>
+        <Container>
+          <Text>© Your Company</Text>
+          <Spacer>·</Spacer>
+          <FooterLink to="/">Home</FooterLink>
+          <Spacer>·</Spacer>
+          <FooterLink to="/admin">Admin</FooterLink>
+          <Spacer>·</Spacer>
+          <FooterLink to="/privacy">Privacy</FooterLink>
+          <Spacer>·</Spacer>
+          <FooterLink to="/not-found">Not Found</FooterLink>
+        </Container>
+      </Root>
     );
   }
 }
 
-export default withStyles(s)(Footer);
+export default Footer;

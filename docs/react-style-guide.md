@@ -6,39 +6,29 @@
 
 ### Table of Contents
 
-* [Separate folder per UI component](#separate-folder-per-ui-component)
-* [Prefer using functional components](#prefer-using-functional-components)
-* [Use CSS Modules](#use-css-modules)
-* [Use higher-order components](#use-higher-order-components)
+- [Separate folder per UI component](#separate-folder-per-ui-component)
+- [Prefer using functional components](#prefer-using-functional-components)
+- [Use Styled-Components](#use-css-modules)
+- [Use higher-order components](#use-higher-order-components)
 
 ### Separate folder per UI component
 
-* Place each major UI component along with its resources in a separate folder\
+- Place each major UI component along with its resources in a separate folder\
   This will make it easier to find related resources for any particular UI element
   (CSS, images, unit tests, localization files etc.). Removing such components during
   refactorings should also be easy.
-* Avoid having CSS, images and other resource files shared between multiple
+- Avoid having CSS, images and other resource files shared between multiple
   components.\
   This will make your code more maintainable, easy to refactor.
-* Add `package.json` file into each component's folder.\
+- ~~Add `package.json` file into each component's folder.\
   This will allow to easily reference such components from other places in your code.\
-  Use `import Nav from '../Navigation'` instead of `import Nav from '../Navigation/Navigation.js'`
+  Use `import Nav from '../Navigation'` instead of `import Nav from '../Navigation/Navigation.js'`~~
 
 ```
 /components/Navigation/icon.svg
-/components/Navigation/Navigation.css
 /components/Navigation/Navigation.js
 /components/Navigation/Navigation.test.js
-/components/Navigation/Navigation.ru-RU.css
-/components/Navigation/package.json
-```
-
-```
-// components/Navigation/package.json
-{
-  "name:": "Navigation",
-  "main": "./Navigation.js"
-}
+/components/Navigation/Navigation.helpers.js
 ```
 
 For more information google for
@@ -46,7 +36,7 @@ For more information google for
 
 ### Prefer using functional components
 
-* Prefer using stateless functional components whenever possible.\
+- Prefer using stateless functional components whenever possible.\
   Components that don't use state are better to be written as simple pure functions.
 
 ```jsx
@@ -67,96 +57,78 @@ function Navigation({ items }) {
 Navigation.propTypes = { items: PropTypes.array.isRequired };
 ```
 
-### Use CSS Modules
+### Use Styled-Components
 
-* Use CSS Modules\
+- Use Styled-Components\
   This will allow using short CSS class names and at the same time avoid conflicts.
-* Keep CSS simple and declarative. Avoid loops, mixins etc.
-* Feel free to use variables in CSS via
-  [precss](https://github.com/jonathantneal/precss) plugin for
-  [PostCSS](https://github.com/postcss/postcss)
-* Prefer CSS class selectors instead of element and `id` selectors (see
-  [BEM](https://bem.info/))
-* Avoid nested CSS selectors (see [BEM](https://bem.info/))
-* When in doubt, use `.root { }` class name for the root elements of your
-  components
-
-```scss
-// Navigation.scss
-@import '../variables.scss';
-
-.root {
-  width: 300px;
-}
-
-.items {
-  margin: 0;
-  padding: 0;
-  list-style-type: none;
-  text-align: center;
-}
-
-.item {
-  display: inline-block;
-  vertical-align: top;
-}
-
-.link {
-  display: block;
-  padding: 0 25px;
-  outline: 0;
-  border: 0;
-  color: $default-color;
-  text-decoration: none;
-  line-height: 25px;
-  transition: background-color 0.3s ease;
-
-  &,
-  .items:hover & {
-    background: $default-bg-color;
-  }
-
-  .selected,
-  .items:hover &:hover {
-    background: $active-bg-color;
-  }
-}
-```
+- Keep CSS simple and declarative. Avoid loops, mixins etc.
 
 ```jsx
 // Navigation.js
-import React from 'react';
-import PropTypes from 'prop-types';
-import withStyles from 'isomorphic-style-loader/lib/withStyles';
-import s from './Navigation.scss';
 
-function Navigation() {
-  return (
-    <nav className={`${s.root} ${this.props.className}`}>
-      <ul className={s.items}>
-        <li className={`${s.item} ${s.selected}`}>
-          <a className={s.link} href="/products">
-            Products
-          </a>
-        </li>
-        <li className={s.item}>
-          <a className={s.link} href="/services">
-            Services
-          </a>
-        </li>
-      </ul>
-    </nav>
-  );
+import React from 'react';
+import styled from 'styled-components';
+import Link from '../Link';
+
+const Spacer = styled.span`
+  color: rgba(255, 255, 255, 0.3);
+`;
+
+const Root = styled.div`
+  float: right;
+  margin: 6px 0 0;
+`;
+
+const NavLink = styled(Link)`
+  display: inline-block;
+  font-size: 1.125em;
+  padding: 3px 8px;
+  text-decoration: none;
+
+  &,
+  &:active,
+  &:visited {
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  &:hover {
+    color: rgba(255, 255, 255, 1);
+  }
+`;
+
+const HighlightedNavLink = styled(NavLink)`
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 3px;
+  color: #fff;
+  margin-right: 8px;
+  margin-left: 8px;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.3);
+  }
+`;
+
+class Navigation extends React.Component {
+  render() {
+    return (
+      <Root role="navigation">
+        <NavLink to="/about">About</NavLink>
+        <NavLink to="/contact">Contact</NavLink>
+        <Spacer> | </Spacer>
+        <NavLink to="/login">Log in</NavLink>
+        <Spacer>or</Spacer>
+        <HighlightedNavLink to="/register">Sign up</HighlightedNavLink>
+      </Root>
+    );
+  }
 }
 
-Navigation.propTypes = { className: PropTypes.string };
-
-export default withStyles(Navigation, s);
+export default Navigation;
 ```
 
 ### Use higher-order components
 
-* Use higher-order components (HOC) to extend existing React components.\
+- Use higher-order components (HOC) to extend existing React components.\
   Here is an example:
 
 ```js

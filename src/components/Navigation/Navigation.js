@@ -1,39 +1,58 @@
-/**
- * React Starter Kit (https://www.reactstarterkit.com/)
- *
- * Copyright © 2014-present Kriasoft, LLC. All rights reserved.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE.txt file in the root directory of this source tree.
- */
-
 import React from 'react';
-import cx from 'classnames';
-import withStyles from 'isomorphic-style-loader/lib/withStyles';
-import s from './Navigation.css';
+import styled from 'styled-components';
 import Link from '../Link';
+
+const Spacer = styled.span`
+  color: rgba(255, 255, 255, 0.3);
+`;
+
+const Root = styled.div`
+  float: right;
+  margin: 6px 0 0;
+`;
+
+const NavLink = styled(Link)`
+  display: inline-block;
+  font-size: 1.125em;
+  padding: 3px 8px;
+  text-decoration: none;
+
+  &,
+  &:active,
+  &:visited {
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  &:hover {
+    color: rgba(255, 255, 255, 1);
+  }
+`;
+
+const HighlightedNavLink = styled(NavLink)`
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 3px;
+  color: #fff;
+  margin-right: 8px;
+  margin-left: 8px;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.3);
+  }
+`;
 
 class Navigation extends React.Component {
   render() {
     return (
-      <div className={s.root} role="navigation">
-        <Link className={s.link} to="/about">
-          About
-        </Link>
-        <Link className={s.link} to="/contact">
-          Contact
-        </Link>
-        <span className={s.spacer}> | </span>
-        <Link className={s.link} to="/login">
-          Log in
-        </Link>
-        <span className={s.spacer}>or</span>
-        <Link className={cx(s.link, s.highlight)} to="/register">
-          Sign up
-        </Link>
-      </div>
+      <Root role="navigation">
+        <NavLink to="/about">About</NavLink>
+        <NavLink to="/contact">Contact</NavLink>
+        <Spacer> | </Spacer>
+        <NavLink to="/login">Log in</NavLink>
+        <Spacer>or</Spacer>
+        <HighlightedNavLink to="/register">Sign up</HighlightedNavLink>
+      </Root>
     );
   }
 }
 
-export default withStyles(s)(Navigation);
+export default Navigation;

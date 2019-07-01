@@ -1,16 +1,18 @@
-/**
- * React Starter Kit (https://www.reactstarterkit.com/)
- *
- * Copyright © 2014-present Kriasoft, LLC. All rights reserved.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE.txt file in the root directory of this source tree.
- */
-
 import React from 'react';
 import PropTypes from 'prop-types';
-import withStyles from 'isomorphic-style-loader/lib/withStyles';
-import s from './ErrorPage.css';
+import styled from 'styled-components';
+
+const ErrorContainer = styled.div`
+  h1 {
+    font-weight: 400;
+    color: #555;
+  }
+
+  pre {
+    white-space: pre-wrap;
+    text-align: left;
+  }
+`;
 
 class ErrorPage extends React.Component {
   static propTypes = {
@@ -28,21 +30,21 @@ class ErrorPage extends React.Component {
   render() {
     if (__DEV__ && this.props.error) {
       return (
-        <div>
+        <ErrorContainer>
           <h1>{this.props.error.name}</h1>
           <pre>{this.props.error.stack}</pre>
-        </div>
+        </ErrorContainer>
       );
     }
 
     return (
-      <div>
+      <ErrorContainer>
         <h1>Error</h1>
         <p>Sorry, a critical error occurred on this page.</p>
-      </div>
+      </ErrorContainer>
     );
   }
 }
 
 export { ErrorPage as ErrorPageWithoutStyle };
-export default withStyles(s)(ErrorPage);
+export default ErrorPage;

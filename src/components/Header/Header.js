@@ -1,27 +1,57 @@
-/**
- * React Starter Kit (https://www.reactstarterkit.com/)
- *
- * Copyright © 2014-present Kriasoft, LLC. All rights reserved.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE.txt file in the root directory of this source tree.
- */
-
 import React from 'react';
-import withStyles from 'isomorphic-style-loader/lib/withStyles';
-import s from './Header.css';
+import styled from 'styled-components';
 import Link from '../Link';
-import Navigation from '../Navigation';
+import Navigation from '../Navigation/Navigation';
 import logoUrl from './logo-small.png';
 import logoUrl2x from './logo-small@2x.png';
+
+const Root = styled.div`
+  background: #373277;
+  color: #fff;
+`;
+
+const Container = styled.div`
+  margin: 0 auto;
+  padding: 20px 0;
+  max-width: 1000px;
+`;
+
+const Brand = styled(Link)`
+  color: #272727;
+  text-decoration: none;
+  font-size: 1.75em; /* ~28px */
+`;
+
+const BrandText = styled.span`
+  margin-left: 10px;
+`;
+
+const Banner = styled.div`
+  text-align: center;
+`;
+
+const BannerTitle = styled.h1`
+  margin: 0;
+  padding: 10px;
+  font-weight: normal;
+  font-size: 4em;
+  line-height: 1em;
+`;
+
+const BannerDescription = styled.p`
+  padding: 0;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 1.25em;
+  margin: 0;
+`;
 
 class Header extends React.Component {
   render() {
     return (
-      <div className={s.root}>
-        <div className={s.container}>
+      <Root>
+        <Container>
           <Navigation />
-          <Link className={s.brand} to="/">
+          <Brand to="/">
             <img
               src={logoUrl}
               srcSet={`${logoUrl2x} 2x`}
@@ -29,16 +59,16 @@ class Header extends React.Component {
               height="38"
               alt="React"
             />
-            <span className={s.brandTxt}>Your Company</span>
-          </Link>
-          <div className={s.banner}>
-            <h1 className={s.bannerTitle}>React</h1>
-            <p className={s.bannerDesc}>Complex web apps made easy</p>
-          </div>
-        </div>
-      </div>
+            <BrandText>Your Company</BrandText>
+          </Brand>
+          <Banner>
+            <BannerTitle>React</BannerTitle>
+            <BannerDescription>Complex web apps made easy</BannerDescription>
+          </Banner>
+        </Container>
+      </Root>
     );
   }
 }
 
-export default withStyles(s)(Header);
+export default Header;

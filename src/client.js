@@ -1,36 +1,15 @@
-/**
- * React Starter Kit (https://www.reactstarterkit.com/)
- *
- * Copyright © 2014-present Kriasoft, LLC. All rights reserved.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE.txt file in the root directory of this source tree.
- */
-
 import 'whatwg-fetch';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import deepForceUpdate from 'react-deep-force-update';
 import queryString from 'query-string';
-import { createPath } from 'history';
 import App from './components/App';
 import createFetch from './createFetch';
 import history from './history';
 import { updateMeta } from './DOMUtils';
 import router from './router';
 
-// Global (context) variables that can be easily accessed from any React component
-// https://facebook.github.io/react/docs/context.html
 const context = {
-  // Enables critical path CSS rendering
-  // https://github.com/kriasoft/isomorphic-style-loader
-  insertCss: (...styles) => {
-    // eslint-disable-next-line no-underscore-dangle
-    const removeCss = styles.map(x => x._insertCss());
-    return () => {
-      removeCss.forEach(f => f());
-    };
-  },
   // Universal HTTP client
   fetch: createFetch(fetch, {
     baseUrl: window.App.apiUrl,
@@ -61,9 +40,6 @@ async function onLocationChange(location, action) {
     context.pathname = location.pathname;
     context.query = queryString.parse(location.search);
 
-    // Traverses the list of routes in the order they are defined until
-    // it finds the first route that matches provided URL path string
-    // and whose action method returns anything other than `undefined`.
     const route = await router.resolve(context);
 
     // Prevent multiple page renders during the routing process
@@ -123,12 +99,6 @@ async function onLocationChange(location, action) {
         // or scroll to the given #hash anchor
         // or scroll to top of the page
         window.scrollTo(scrollX, scrollY);
-
-        // Google Analytics tracking. Don't send 'pageview' event after
-        // the initial rendering, as it was already sent
-        if (window.ga) {
-          window.ga('send', 'pageview', createPath(location));
-        }
       },
     );
   } catch (error) {
